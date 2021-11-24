@@ -9,13 +9,14 @@ const isbnInput = document.querySelector('#isbn');
 
 //events
 form.addEventListener("submit", addBook);
+booksList.addEventListener('click', deleteBook);
 
 function addBook(event) {
     //define book info through input value
-    const title = titleInput.value; 
-    const author = authorInput.value;
-    const isbn = isbnInput.value;
-    
+    let title = titleInput.value;
+    let author = authorInput.value;
+    let isbn = isbnInput.value;
+
     //create <tr> element
     const tr = document.createElement('tr');
     
@@ -55,7 +56,7 @@ function addBook(event) {
     //create <a> element
     const link = document.createElement('a');
     //set href to <a>
-    link.setAttribute('href', `#`)
+    link.setAttribute('href', `#`);
     //add css style (gap between text and link)
     link.className = 'secondary-content';
     //add X text to link
@@ -74,4 +75,16 @@ function addBook(event) {
     isbnInput.value = '';
 
     event.preventDefault();
+}
+
+//if X is clicked, the task is removed from the list
+function deleteBook(event) {
+    //if X is clicked
+    if(event.target.textContent === 'X') {
+        //ask for confirmation
+        if(confirm('Do you want to delete this book?')){
+            //delete parent element (li) of the target (X) at the event (click)
+            event.target.parentElement.parentElement.remove();
+        }
+    }
 }
