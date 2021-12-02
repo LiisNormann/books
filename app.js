@@ -12,11 +12,13 @@ form.addEventListener("submit", addBook);
 booksList.addEventListener('click', deleteBook);
 
 function addBook(event) {
+    event.preventDefault();
     //define book info through input value
     let title = titleInput.value;
     let author = authorInput.value;
     let isbn = isbnInput.value;
 
+    const book = [title, author, isbn];
     //create <tr> element
     const tr = document.createElement('tr');
     
@@ -68,16 +70,30 @@ function addBook(event) {
     //add tr to tbody
     booksList.appendChild(tr);
 
-    //save task
-    //addTaskToLocalStorage(task);
+    //save book
+    addBookToLocalStorage(book);
+
     titleInput.value = '';
     authorInput.value = '';
     isbnInput.value = '';
-
-    event.preventDefault();
 }
 
-//if X is clicked, the task is removed from the list
+//save input value of a book to localStorage
+function addBookToLocalStorage(book) {
+    let books;
+    //check if there is an element 'books' in local storage, if not then create an empty array
+    if(localStorage.getItem('books') === null) {
+        books = [];
+    } else {
+        books = JSON.parse(localStorage.getItem('books'));
+    }
+    //add new element to an array
+    books.push(book);
+    //overWrite localStorage with the added element
+    localStorage.setItem('books', JSON.stringify(books));
+}
+
+//if X is clicked, the book is removed from the list
 function deleteBook(event) {
     //if X is clicked
     if(event.target.textContent === 'X') {
