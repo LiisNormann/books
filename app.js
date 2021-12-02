@@ -101,6 +101,30 @@ function deleteBook(event) {
         if(confirm('Do you want to delete this book?')){
             //delete parent element (li) of the target (X) at the event (click)
             event.target.parentElement.parentElement.remove();
+            let bookISBN = event.target.parentElement.previousElementSibling.textContent;
+            deleteBookFromLocalStorage(bookISBN);
         }
     }
+}
+
+function deleteBookFromLocalStorage(bookISBN) {
+    let books;
+    //check if there is an element 'books' in local storage, if not then create an empty array
+    if(localStorage.getItem('books') === null) {
+        books = [];
+    } else {
+        books = JSON.parse(localStorage.getItem('books'));
+    }
+
+    //remove an element without leaving holes in the array
+    books.forEach(function (book, index) {
+        //if the second book array item is the same as bookISBN (isbn value)
+        if(book[2] === bookISBN) {
+            //get the item index and delete 1 item aka that exact item
+            books.splice(index, 1)
+        }
+    });
+
+    //overwrite localStorage without the deleted element
+    localStorage.setItem('books', JSON.stringify(books));
 }
