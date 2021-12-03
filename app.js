@@ -10,6 +10,52 @@ const isbnInput = document.querySelector('#isbn');
 //events
 form.addEventListener("submit", addBook);
 booksList.addEventListener('click', deleteBook);
+//if page is reloaded, run function
+document.addEventListener('DOMContentLoaded', getBooksFromLocalStorage);
+
+function getBooksFromLocalStorage() {
+    let books;
+    //check if there is an element 'books' in local storage, if not then create an empty array
+    if(localStorage.getItem('books') === null) {
+        books = []; 
+    } else {
+        books = JSON.parse(localStorage.getItem('books'));
+    }
+    for(let i = 0; i < books.length; i++) {
+        let book = books[i]; 
+        //create <tr> element
+        const tr = document.createElement('tr');
+        for(let i = 0; i < book.length; i++) {
+            //create <td> element
+            let td = document.createElement('td');
+            //create text element
+            let text = document.createTextNode(book[i]);
+            //add text to <td>
+            td.appendChild(text);
+            //add td to tr
+            tr.appendChild(td);
+            tr.appendChild(td);
+            console.log(title, text);
+        }
+        //Create X link to delete row
+        //create <td> element
+        td = document.createElement('td');
+        //create <a> element
+        const link = document.createElement('a');
+        //set href to <a>
+        link.setAttribute('href', `#`);
+        //add css style (gap between text and link)
+        link.className = 'secondary-content';
+        //add X text to link
+        link.appendChild(document.createTextNode('X'));
+        //add <a> to <td>
+        td.appendChild(link);
+        //add td to tr
+        tr.appendChild(td);
+        //add tr to tbody
+        booksList.appendChild(tr);
+    }
+}
 
 function addBook(event) {
     event.preventDefault();
@@ -21,7 +67,7 @@ function addBook(event) {
     const book = [title, author, isbn];
     //create <tr> element
     const tr = document.createElement('tr');
-    
+
     //title
     //create <td> element
     let td = document.createElement('td');
