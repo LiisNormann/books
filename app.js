@@ -21,22 +21,27 @@ function getBooksFromLocalStorage() {
     } else {
         books = JSON.parse(localStorage.getItem('books'));
     }
-    for(let i = 0; i < books.length; i++) {
-        let book = books[i]; 
-        //create <tr> element
+
+    books.forEach(function (e) {
+        const title = e[0];
+        const author = e[1];
+        const isbn = e[2];
         const tr = document.createElement('tr');
-        for(let i = 0; i < book.length; i++) {
-            //create <td> element
-            let td = document.createElement('td');
-            //create text element
-            let text = document.createTextNode(book[i]);
-            //add text to <td>
-            td.appendChild(text);
-            //add td to tr
-            tr.appendChild(td);
-            tr.appendChild(td);
-            console.log(title, text);
-        }
+        let td = document.createElement('td')
+        let cell = document.createTextNode(title);
+        td.appendChild(cell);
+        tr.appendChild(td);
+
+        td = document.createElement('td')
+        cell = document.createTextNode(author);
+        td.appendChild(cell);
+        tr.appendChild(td);
+
+        td = document.createElement('td')
+        cell = document.createTextNode(isbn);
+        td.appendChild(cell);
+        tr.appendChild(td);
+
         //Create X link to delete row
         //create <td> element
         td = document.createElement('td');
@@ -54,7 +59,24 @@ function getBooksFromLocalStorage() {
         tr.appendChild(td);
         //add tr to tbody
         booksList.appendChild(tr);
-    }
+    });
+    
+    /*for(let i = 0; i < books.length; i++) {
+        let book = books[i]; 
+        //create <tr> element
+        const tr = document.createElement('tr');
+        for(let i = 0; i < book.length; i++) {
+            //create <td> element
+            let td = document.createElement('td');
+            //create text element
+            let text = document.createTextNode(book[i]);
+            //add text to <td>
+            td.appendChild(text);
+            //add td to tr
+            tr.appendChild(td);
+            tr.appendChild(td);
+        }      
+    }*/
 }
 
 function addBook(event) {
